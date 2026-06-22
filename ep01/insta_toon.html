@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>ep01 인스타툰 미리보기 (01~05)</title>
+<style>
+  body{margin:0;background:#e9e5df;font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans CJK KR","Malgun Gothic",sans-serif;}
+  .head{padding:20px;text-align:center;color:#5f574d;}
+  .feed{display:flex;flex-direction:column;align-items:center;gap:28px;padding:10px 0 60px;}
+  .panel-wrap{}
+  .plabel{font-size:14px;color:#7a726a;margin:0 0 6px 4px;}
+  /* stage = 캡처와 동일한 820x1024 */
+  .stage{position:relative;width:820px;height:1024px;overflow:hidden;
+    border:1px solid #d8d2c8;border-radius:8px;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .stage img{position:absolute;inset:0;width:820px;height:1024px;display:block;}
+  .narr{position:absolute;left:0;width:100%;background:rgba(255,255,255,.93);color:#3a3531;
+    line-height:1.45;font-weight:500;text-align:center;padding:13px 18px;box-sizing:border-box;}
+  .narr.top{top:0;border-bottom:1px solid rgba(0,0,0,.08);}
+  .narr.bottom{bottom:0;border-top:1px solid rgba(0,0,0,.08);}
+  .bub{position:absolute;color:#2f2b27;line-height:1.32;font-weight:600;text-align:center;word-break:keep-all;}
+</style>
+</head>
+<body>
+<div class="head">
+  <h2>ep01 인스타툰 미리보기 (01~05)</h2>
+  <p>각 칸은 캡처될 결과와 동일한 820x1024 크기입니다. 텍스트 위치/내용 확인 후 캡처 진행합니다. (06은 재생성 대기)</p>
+</div>
+<div class="feed" id="feed"></div>
+
+<script>
+const PANELS = [
+  { file:'01.png', label:'01 - 표지 / 후킹',
+    bubbles:[ {x:60,y:33,w:32,size:14, text:'딸이 애를 못 낳으면 병원에 끌고 가서라도 시험관 시술을 시켜야죠! 친정엄마가 너무 아무것도 안 하는 거 아니에요?'} ] },
+
+  { file:'02.png', label:'02 - 그 전화를 받은 친정',
+    narr:{pos:'top', text:'결혼 10년 차. 어느 날, 시어머니가 우리 친정 엄마에게 전화를 걸었다.'},
+    bubbles:[ {x:40,y:9,w:20,size:11, text:'사돈, 이게 다 누구 책임이에요?'} ] },
+
+  { file:'03.png', label:'03 - 우리가 보낸 시간',
+    narr:{pos:'bottom', text:'나는 마흔하나. 결혼 10년 차. 30대 내내, 부부가 할 수 있는 노력은 다 해봤다.'} },
+
+  { file:'04.png', label:'04 - 우리의 선택',
+    narr:{pos:'bottom', text:'내 몸을 끝까지 희생하면서까지 갖고 싶진 않았다. 마흔이 넘으니 더 그랬다. 그건 우리 둘이 함께 내린 결정이었다.'} },
+
+  { file:'05.png', label:'05 - 명절이면',
+    narr:{pos:'top', text:'명절은, 매번 같은 질문으로 시작됐다.'},
+    bubbles:[
+      {x:57,y:17,w:25,size:12, text:'둘째는 언제? 아니, 아직 첫째도 없었나?'},
+      {x:49,y:51,w:28,size:14, text:'누구네 며느리는 벌써 둘이래.'}
+    ] },
+];
+
+const feed = document.getElementById('feed');
+PANELS.forEach(p=>{
+  let ov='';
+  if(p.narr) ov += `<div class="narr ${p.narr.pos}" style="font-size:19px;">${p.narr.text}</div>`;
+  (p.bubbles||[]).forEach(b=>{
+    ov += `<div class="bub" style="left:${b.x}%;top:${b.y}%;width:${b.w}%;font-size:${b.size}px;">${b.text}</div>`;
+  });
+  feed.insertAdjacentHTML('beforeend',
+    `<div class="panel-wrap"><div class="plabel">${p.label}</div><div class="stage"><img src="${p.file}">${ov}</div></div>`);
+});
+</script>
+</body>
+</html>

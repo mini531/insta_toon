@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ep01 스토리보드 - 며느리가 죄인인가요</title>
+<style>
+  :root{
+    --bg:#f4f1ec; --card:#fff; --ink:#3a3531; --sub:#7a726a; --line:#e3ddd4;
+    --band:#fbf9f5; --accent:#a98a6f; --warn:#c0563f;
+    --b-wife:#dfeaf0; --b-husband:#e7e7e2; --b-mil:#ecdfe8; --b-fil:#ede4d8;
+    --b-wmom:#dfe9ec; --b-rel:#f0e7d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.65;}
+  header.page{padding:32px 28px 20px;border-bottom:1px solid var(--line);background:var(--card);}
+  header.page h1{margin:0 0 6px;font-size:24px;}
+  header.page p{margin:2px 0;color:var(--sub);font-size:14px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px;}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:24px;}
+  .panel h2{margin:0 0 12px;font-size:16px;}
+  .panel ul{margin:0;padding-left:18px;} .panel li{margin:4px 0;}
+  .panel .warn{color:var(--warn);font-weight:600;}
+  .prompt{background:#2f2b27;color:#ece6dd;border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.65;}
+  .charsheet img{width:100%;max-width:760px;display:block;border:1px solid var(--line);border-radius:10px;}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{font-size:14px;padding:6px 12px;border-radius:20px;border:1px solid var(--line);}
+
+  .cut{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:26px;overflow:hidden;
+    display:grid;grid-template-columns:420px 1fr;}
+  .framecol{padding:22px;border-right:1px solid var(--line);background:#faf8f4;}
+  .info{padding:22px 24px;}
+  .cuttop{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .cutnum{font-size:14px;font-weight:700;color:#fff;background:var(--accent);border-radius:20px;padding:4px 14px;}
+  .filename{font-size:14px;color:var(--sub);font-family:monospace;}
+  .cuttitle{font-size:21px;font-weight:700;margin:0 0 16px;}
+
+  /* 4:5 frame mock */
+  .frame{position:relative;width:376px;aspect-ratio:4/5;margin:0 auto;background:#efe9e0;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}
+  .nb{background:#fff;color:var(--ink);font-size:14px;line-height:1.5;padding:9px 11px;}
+  .nb.top{border-bottom:1px solid var(--line);}
+  .nb.bottom{border-top:1px solid var(--line);margin-top:auto;}
+  .nb.dark{background:#3a3531;color:#f1ece4;}
+  .sc{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:11px;font-size:13.5px;color:#5f574d;min-height:78px;}
+  .sc + .sc{border-top:2px dashed #cdbfa9;}
+  .sc .lbl{opacity:.95;}
+  .bub{display:inline-block;background:#fff;border:1px solid #cfc6ba;border-radius:12px;padding:7px 10px;
+    font-size:13px;line-height:1.45;margin:6px auto;max-width:96%;}
+  .bub .who{display:block;font-size:12px;color:var(--sub);margin-bottom:2px;}
+  .bub.wife{background:var(--b-wife);} .bub.husband{background:var(--b-husband);}
+  .bub.mil{background:var(--b-mil);} .bub.fil{background:var(--b-fil);}
+  .bub.wmom{background:var(--b-wmom);} .bub.rel{background:var(--b-rel);}
+  .title-zone{background:#efe3d4;color:#8a6f54;font-weight:700;font-size:15px;padding:11px;text-align:center;border-bottom:1px solid var(--line);}
+
+  .info h4{margin:18px 0 6px;font-size:14px;color:var(--accent);letter-spacing:.02em;}
+  .info h4:first-of-type{margin-top:0;}
+  .narr-line{background:var(--band);border-left:3px solid var(--accent);padding:9px 13px;border-radius:0 8px 8px 0;margin:6px 0;font-size:15.5px;}
+  .dlg{margin:6px 0;font-size:15.5px;} .dlg .who{font-weight:700;}
+  .info ol{font-size:15px;}
+  .cast{display:flex;flex-wrap:wrap;gap:6px;} .cast .c{font-size:14px;padding:4px 11px;border-radius:6px;border:1px solid var(--line);background:#faf8f4;}
+  .note.stack{font-size:14px;color:#7c5a3a;background:#f6efe5;border:1px dashed #cdbfa9;border-radius:8px;padding:9px 12px;margin-top:6px;}
+  .prev{margin-top:14px;} .prev img{width:130px;border:1px solid var(--line);border-radius:8px;display:block;}
+  .prev .cap{font-size:13px;color:var(--sub);margin-top:4px;}
+
+  @media(max-width:820px){.cut{grid-template-columns:1fr;}.framecol{border-right:none;border-bottom:1px solid var(--line);}.frame{width:330px;}}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1>ep01 스토리보드 - "며느리가 죄인인가요"</h1>
+  <p>결혼 10년 차, 아이 없는 부부를 향한 시댁의 임신 압박과 그 이면을 담담하게 풀어가는 10컷 인스타툰</p>
+  <p>구성: 슬라이드 10장, 각 장 안에 2~3개 장면을 세로로 적층(벤치마크식) / 플랫 저채도 화풍 / 텍스트는 그림과 분리해 합성</p>
+</header>
+<div class="wrap">
+
+  <section class="panel">
+    <h2>제작 가이드</h2>
+    <ul>
+      <li><b>장 수</b>: 총 10장(슬라이드). 한 장 안에 여러 컷을 위아래로 짜임새 있게 배치.</li>
+      <li><b>화풍</b>: 플랫 2D 카툰, 저채도 파스텔, 가는 갈색 라인, 음영 최소. 캐릭터 시트 고정. 반실사/수채 금지.</li>
+      <li class="warn">두 노인 구분: 시아버지 = 브라운 카라 스웨터 / 친정아빠 = 회갈색 카라셔츠 위 스웨터.</li>
+      <li class="warn">생성 제약: 1:1(1024x1024)만 가능 -> <b>생성 후 좌우를 잘라 4:5로 센터 크롭</b>. 인물과 핵심 요소는 중앙 4:5 안전영역에, 좌우 여백은 잘려도 되게. 장면 적층(상/하)은 좌우 크롭에 안전.</li>
+      <li><b>텍스트(분리 합성)</b>: 그림에는 글자 없이 여백만. 나레이션 = 상/하단 가로 띠, 대사 = 화자색 말풍선. 빈 말풍선이 아니라 합성용 빈 공간을 둠.</li>
+      <li><b>프롬프트 파일</b>: <code>ep01/prompts.md</code> (10장 일괄 전송용). 결과는 <code>C:\project\insta_toon\ep01\01.png ~ 10.png</code> 로 저장(v1은 backup_v1 보관).</li>
+    </ul>
+  </section>
+
+  <section class="panel charsheet">
+    <h2>캐릭터 레퍼런스 시트</h2>
+    <img src="../.agents/character_sheet.png" alt="캐릭터 시트">
+    <div class="legend">
+      <span class="chip"><b>아내</b> 갈색 긴 웨이브 / 머스터드 스웨터</span>
+      <span class="chip"><b>남편</b> 짧은 회갈색 머리 / 회색 스웨터</span>
+      <span class="chip"><b>시어머니</b> 보글 회갈색 펌 / 플럼 상의 / 날카로운 눈</span>
+      <span class="chip"><b>시아버지</b> 대머리+옆머리 / 브라운 카라 스웨터</span>
+      <span class="chip"><b>친정엄마</b> 검정 단발 / 하늘색 스웨터</span>
+      <span class="chip"><b>친정아빠</b> 옆 회색 대머리 / 회갈색 카라셔츠</span>
+    </div>
+  </section>
+
+  <div id="cuts"></div>
+
+  <section class="panel" id="batch">
+    <h2>일괄 생성 프롬프트 (전체 복사용)</h2>
+    <p style="color:var(--sub);margin:0 0 12px;">아래 한 덩어리를 그대로 이미지 생성기에 전달하세요. 캐릭터 시트(<code>.agents/character_sheet.png</code>)도 참조 이미지로 함께 첨부하면 일관성이 올라갑니다.</p>
+    <button id="copyBtn" style="margin-bottom:12px;padding:9px 16px;font-size:14px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;cursor:pointer;">전체 프롬프트 복사</button>
+    <textarea id="batchText" readonly style="width:100%;height:520px;font-size:14px;line-height:1.6;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:monospace;background:#fbf9f5;color:var(--ink);resize:vertical;"></textarea>
+  </section>
+</div>
+
+<script>
+const SLIDES = [
+  {
+    num:'01', file:'01.png', title:'표지 / 후킹',
+    titleZone:'며느리가 죄인인가요',
+    scenes:[ {label:'시어머니가 전화기에 대고 삿대질하듯 공격적으로 말하는 상반신', bub:{cls:'mil',who:'시어머니',text:'딸이 애를 못 낳으면 병원에 끌고 가서라도 시험관 시술을 시켜야죠! 친정엄마가 너무 아무것도 안 하는 거 아니에요?'}} ],
+    dialogue:[ {who:'시어머니',text:'"딸이 애를 못 낳으면 병원에 끌고 가서라도 시험관 시술을 시켜야죠! 친정엄마가 너무 아무것도 안 하는 거 아니에요?"'} ],
+    cast:['시어머니'],
+    prompt:'한 장면. 시어머니가 전화기를 귀에 대고 한 손은 삿대질하듯 들어 올린 채 단호하고 공격적인 표정으로 쏘아붙이는 상반신. 상단 1/4은 제목용 단색 여백, 입 옆에는 큰 말풍선 여백. 인물은 중앙 하단에 크게.'
+  },
+  {
+    num:'02', file:'02.png', title:'그 전화를 받은 친정',
+    narrTop:'결혼 10년 차. 어느 날, 시어머니가 우리 친정 엄마에게 전화를 걸었다.',
+    scenes:[
+      {label:'친정엄마(수화기, 충격으로 굳은 얼굴) + 옆 친정아빠 걱정', bub:{cls:'mil',who:'시어머니(수화기)',text:'사돈, 이게 다 누구 책임이에요?'}},
+      {label:'수화기 내린 친정엄마 고개 떨굼 / 친정아빠 어깨에 손'}
+    ],
+    cast:['친정엄마','친정아빠'],
+    prompt:'세로 2단. 상단: 친정엄마가 유선전화 수화기를 댄 채 충격으로 굳은 얼굴, 옆 친정아빠 걱정(베이지 배경). 하단: 수화기 내린 친정엄마가 고개 떨구고 친정아빠가 어깨에 손(회청색 배경). 상단에 나레이션 띠 여백, 수화기 위 작은 말풍선 여백.'
+  },
+  {
+    num:'03', file:'03.png', title:'우리가 보낸 시간',
+    narrBottom:'나는 마흔하나. 결혼 10년 차. 30대 내내, 부부가 할 수 있는 노력은 다 해봤다.',
+    scenes:[
+      {label:'[회상, 흐릿] 젊은 부부, 병원 대기실 의자에 나란히 앉아 지친 표정으로 손 맞잡음'},
+      {label:'식탁 위 배란테스트기·영양제·병원 예약 표시한 달력 / 아내가 약을 챙기며 지친 표정 (침습 시술은 제외)'}
+    ],
+    cast:['아내','남편'],
+    prompt:'세로 2단, 회상 톤으로 살짝 흐릿. 상단: 젊은 시절 아내와 남편이 병원 대기실에 나란히 앉아 지친 표정으로 손 맞잡음. 하단: 식탁 위에 배란테스트기와 영양제 통, 병원 예약이 표시된 달력이 놓이고 아내가 약을 챙기며 담담히 지친 표정. 주사를 놓는 등 침습적인 장면은 넣지 말 것. 두 장면 배경 톤 다르게, 하단에 나레이션 띠 여백.'
+  },
+  {
+    num:'04', file:'04.png', title:'우리의 선택',
+    narrBottom:'내 몸을 끝까지 희생하면서까지 갖고 싶진 않았다. 마흔이 넘으니 더 그랬다. 그건 우리 둘이 함께 내린 결정이었다.',
+    scenes:[
+      {label:'아내+남편 마주 앉아 손 맞잡고 평온하게 대화, 서로 끄덕임'},
+      {label:'아내가 창가에서 밖을 보며 생각에 잠긴 옆모습 (낮은 채도)'}
+    ],
+    cast:['아내','남편'],
+    prompt:'세로 2단. 상단: 아내와 남편이 식탁에서 마주 앉아 손을 맞잡고 평온하게 대화하며 끄덕임(따뜻한 톤). 하단: 아내가 창가에서 밖을 바라보는 생각에 잠긴 옆모습(낮은 채도). 하단에 나레이션 띠 여백.'
+  },
+  {
+    num:'05', file:'05.png', title:'명절이면',
+    narrTop:'명절은, 매번 같은 질문으로 시작됐다.',
+    scenes:[
+      {label:'앞치마 두른 아내가 전 부치며 지친 옆모습 / 뒤쪽 친척들이 수군거림', bub:{cls:'rel',who:'친척',text:'둘째는 언제? 아니, 아직 첫째도 없었나?'}},
+      {label:'시어머니 팔짱 끼고 비교하듯 말함 / 아내 고개 숙임', bub:{cls:'mil',who:'시어머니',text:'누구네 며느리는 벌써 둘이래.'}}
+    ],
+    dialogue:[ {who:'친척',text:'"둘째는 언제? 아니, 아직 첫째도 없었나?"'}, {who:'시어머니',text:'"누구네 며느리는 벌써 둘이래."'} ],
+    cast:['아내','시어머니','친척'],
+    prompt:'세로 2단. 상단: 앞치마 두른 아내가 차례상에서 전을 부치며 지친 옆모습, 뒤 거실에 친척 두세 명이 아내 쪽을 보며 수군거림(친척 위 말풍선 여백). 하단: 시어머니가 팔짱 끼고 못마땅하게 옆집 며느리 이야기를 하고 아내는 고개 숙임(시어머니 옆 말풍선 여백). 두 장면 배경 색 다르게.'
+  },
+  {
+    num:'06', file:'06.png', title:'밥상과 보약',
+    scenes:[
+      {label:'밥상: 시어머니가 아내 밥그릇에 밥 꾹꾹 / 아내 억지웃음 / 옆 시아버지 말없이 식사', bub:{cls:'mil',who:'시어머니',text:'애 가지려면 잘 먹어야지. 더 먹어, 더.'}},
+      {label:'시어머니가 한약 봉지 묶음을 들이밀며 강권 / 아내 곤란', bub:{cls:'mil',who:'시어머니',text:'이거 꼬박꼬박 먹고 몸 만들어.'}}
+    ],
+    dialogue:[ {who:'시어머니',text:'"애 가지려면 잘 먹어야지. 더 먹어, 더."'}, {who:'시어머니',text:'"이거 꼬박꼬박 먹고 몸 만들어."'} ],
+    cast:['시어머니','아내','시아버지'],
+    prompt:'세로 2단. 상단: 밥상에서 시어머니가 아내 밥그릇에 밥을 꾹꾹 더 얹고 아내는 난처한 억지웃음, 시아버지는 옆에서 말없이 식사(시어머니 옆 말풍선 여백). 하단: 시어머니가 한약 봉지 묶음을 아내 앞으로 들이밀며 강권, 아내 곤란(말풍선 여백). 두 장면 배경 색 다르게.'
+  },
+  {
+    num:'07', file:'07.png', title:'훑는 시선, 그리고 침묵',
+    narrBottom:'시아버지는 늘 그런 식으로 내 몸을 훑었다. 그리고 그 옆에서 남편은, 언제나처럼 아무 말이 없었다.',
+    scenes:[
+      {label:'[전경] 시아버지가 아내를 위아래로 훑어봄 / 아내 시선 피하며 위축', bub:{cls:'fil',who:'시아버지',text:'쯧, 너무 말랐다. 살 좀 찌워라. 그래야 애가 들어서지.'}},
+      {label:'[배경] 소파의 남편이 고개 숙여 휴대폰만, 무관심'}
+    ],
+    dialogue:[ {who:'시아버지',text:'"쯧, 너무 말랐다. 살 좀 찌워라. 그래야 애가 들어서지."'} ],
+    cast:['시아버지','아내','남편'],
+    prompt:'세로 2단. 상단(전경): 시아버지가 아내를 위아래로 훑어보며 못마땅하게 말하고 아내는 시선을 피하며 위축(시아버지 옆 말풍선 여백). 하단(배경): 같은 거실 소파에서 남편이 고개를 숙여 휴대폰만 봄, 무관심한 무표정. 두 장면 배경 색 다르게, 하단에 나레이션 띠 여백.',
+    stack:'전경(시아버지 훑음+대사) + 배경(무관심한 남편)을 한 화면에. 남편의 침묵이 같은 컷에 보여야 함.'
+  },
+  {
+    num:'08', file:'08.png', title:'친정으로 간 화살',
+    narrBottom:'결국 화살은 친정으로 향했다. 그날, 그 전화를 받은 엄마는 한참을 울었다고 했다. 아무 잘못도 없는 우리 엄마가, 나 때문에.',
+    scenes:[
+      {label:'시어머니가 손가락질하며 사납게 따짐, 분노한 표정', bub:{cls:'mil',who:'시어머니',text:'친정에서 도대체 뭘 가르친 거예요?'}},
+      {label:'전화 끊은 친정엄마가 입 가리고 눈물 / 친정아빠 어깨에 손'}
+    ],
+    dialogue:[ {who:'시어머니',text:'"친정에서 도대체 뭘 가르친 거예요?"'} ],
+    cast:['시어머니','친정엄마','친정아빠'],
+    prompt:'세로 2단. 상단: 시어머니가 손가락질하듯 손을 들고 사납게 따지는 분노한 상반신(말풍선 여백). 하단: 전화를 끊은 친정엄마가 한 손으로 입을 가린 채 눈물, 친정아빠가 어깨에 손(슬프지만 따뜻한 톤). 두 장면 배경 색 다르게, 하단에 나레이션 띠 여백.'
+  },
+  {
+    num:'09', file:'09.png', title:'나의 밤',
+    narrBottom:'정말, 아이가 없는 게 내 죄일까. 그 밤들이 쌓이는 동안 나는 조금씩 다른 사람이 되어 갔다.',
+    scenes:[
+      {label:'불 꺼진 어두운 방, 아내가 무릎 안고 침대에 홀로 앉아 고개 숙임'},
+      {label:'세면대 거울 앞 아내, 거울 속 자신을 봄. 슬픔과 억울함이 단단함으로'}
+    ],
+    cast:['아내'],
+    prompt:'세로 2단. 상단: 불 꺼진 어두운 방에서 아내가 무릎을 안고 침대에 홀로 앉아 고개 숙임(외롭고 무거운 분위기, 낮은 채도). 하단: 같은 밤 아내가 세면대 거울 앞에서 거울 속 자신을 바라봄, 슬픔과 억울함이 섞였지만 조금씩 단단해지는 표정. 두 장면 배경 색 다르게, 하단에 나레이션 띠 여백.'
+  },
+  {
+    num:'10', file:'10.png', title:'클리프행어',
+    narrBottomDark:'그땐 몰랐다. 이게 시작에 불과했다는 걸. 그리고 아이가 없는 진짜 이유는, 따로 있었다는 걸.',
+    scenes:[
+      {label:'아내 정면 상반신 클로즈업 / 슬픔과 결심이 섞인 단단한 표정 (여운)'}
+    ],
+    cast:['아내'],
+    prompt:'한 장면. 아내의 정면 상반신 클로즈업. 슬픔과 결심이 동시에 묻어나는 단단한 표정으로 정면 응시. 여운 있는 담담한 톤, 배경은 흐릿한 실내. 하단 1/4은 나레이션용 어두운 가로 띠 여백.'
+  }
+];
+
+const cuts = document.getElementById('cuts');
+SLIDES.forEach(s=>{
+  // frame
+  let frame = '';
+  if(s.titleZone) frame += `<div class="title-zone">${s.titleZone}</div>`;
+  if(s.narrTop) frame += `<div class="nb top">${s.narrTop}</div>`;
+  s.scenes.forEach(sc=>{
+    let inner = `<span class="lbl">${sc.label}</span>`;
+    if(sc.bub) inner += `<span class="bub ${sc.bub.cls}"><span class="who">${sc.bub.who}</span>${sc.bub.text}</span>`;
+    frame += `<div class="sc">${inner}</div>`;
+  });
+  if(s.narrBottom) frame += `<div class="nb bottom">${s.narrBottom}</div>`;
+  if(s.narrBottomDark) frame += `<div class="nb bottom dark">${s.narrBottomDark}</div>`;
+
+  // info
+  let info = `<div class="cuttop"><span class="cutnum">${s.num}컷</span><span class="filename">${s.file}</span></div>`;
+  info += `<h3 class="cuttitle">${s.title}</h3>`;
+  if(s.narrTop||s.narrBottom||s.narrBottomDark){
+    info += `<h4>나레이션</h4>`;
+    [s.narrTop,s.narrBottom,s.narrBottomDark].filter(Boolean).forEach(n=> info += `<p class="narr-line">${n}</p>`);
+  }
+  if(s.dialogue){ info += `<h4>대사</h4>`; s.dialogue.forEach(d=> info += `<p class="dlg"><span class="who">${d.who}:</span> ${d.text}</p>`); }
+  info += `<h4>장면 구성</h4><ol style="margin:4px 0;padding-left:18px;">`;
+  s.scenes.forEach(sc=> info += `<li>${sc.label}</li>`);
+  info += `</ol>`;
+  info += `<h4>등장인물</h4><div class="cast">` + s.cast.map(c=>`<span class="c">${c}</span>`).join('') + `</div>`;
+  info += `<h4>이미지 프롬프트</h4><p class="prompt">${s.prompt}<br><span style="color:#c7b89a;">저장: C:\\project\\insta_toon\\ep01\\${s.file}</span></p>`;
+  if(s.stack) info += `<p class="note stack">2장면 적층: ${s.stack}</p>`;
+  info += `<div class="prev"><h4>이전 생성본(v1)</h4><img src="backup_v1/${s.file}" alt="v1 ${s.num}"><div class="cap">참고용, 새로 그릴 예정</div></div>`;
+
+  cuts.insertAdjacentHTML('beforeend', `<article class="cut"><div class="framecol"><div class="frame">${frame}</div></div><div class="info">${info}</div></article>`);
+});
+
+// ---- 일괄 생성 프롬프트 빌드 ----
+const COMMON =
+`[공통 화풍/캐릭터 - 모든 컷 공통 적용]
+플랫 2D 카툰 인스타툰 스타일. 저채도 파스텔 색감, 부드럽고 가는 갈색 외곽선, 그림자/음영 최소의 단순 면 채색. 종이 질감 단색 배경에 소품 최소화. 인물은 첨부한 캐릭터 시트와 동일하게(헤어, 의상색, 얼굴) 유지.
+- 아내: 갈색 긴 웨이브, 머스터드 스웨터, 베이지 바지
+- 남편: 짧은 회갈색 머리, 회색 스웨터, 카키 바지
+- 시어머니: 보글 회갈색 펌, 자주색 상의, 날카로운 눈매
+- 시아버지: 정수리 벗겨진 대머리+옆머리, 브라운 카라 스웨터, 주름진 마른 얼굴
+- 친정엄마: 검정 단발, 하늘색 스웨터
+- 친정아빠: 옆머리 회색 대머리, 회갈색 카라셔츠 위 스웨터
+화면에 글자/숫자/말풍선 텍스트는 절대 넣지 말 것(텍스트는 후합성). 지정 위치에 텍스트용 단색 여백(상/하단 가로 띠, 인물 옆 빈 공간)만 비워둘 것.
+워터마크(예외): 옅고 흐릿한 반투명 워터마크 '@toon_observer_'를 이미지마다 서로 다른 임의의 위치 2곳에 작게, 연한 회색 반투명으로 배치할 것(가독성을 해치지 않게 흐리게).
+포맷: 1:1 정사각형으로 생성하되 핵심 인물·장면은 중앙 세로 4:5 영역 안에 두고 좌우 여백을 둘 것(좌우는 4:5로 크롭 예정). 여러 장면은 위아래로 나누고 장면마다 배경 색을 다르게 해 구분.`;
+
+const intro =
+`인스타툰 "며느리가 죄인인가요" 1화용 이미지 10장을 아래 지침대로 생성해줘.
+각 컷을 1:1로 생성하고, 결과 파일은 지정한 경로/파일명으로 저장해줘.
+`;
+
+let batch = intro + "\n" + COMMON + "\n";
+SLIDES.forEach(s=>{
+  batch += `\n----------------------------------------\n[${s.num}컷 - ${s.title}]\n${s.prompt}\n저장: C:\\project\\insta_toon\\ep01\\${s.file}\n`;
+});
+document.getElementById('batchText').value = batch;
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const t = document.getElementById('batchText');
+  t.select(); t.setSelectionRange(0, t.value.length);
+  navigator.clipboard.writeText(t.value).then(()=>{
+    const b = document.getElementById('copyBtn'); const o = b.textContent;
+    b.textContent = '복사됨'; setTimeout(()=>b.textContent=o, 1500);
+  }).catch(()=>{ document.execCommand('copy'); });
+});
+</script>
+</body>
+</html>

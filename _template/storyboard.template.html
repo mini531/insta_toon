@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+  인스타툰 에피소드 스토리보드 템플릿
+  사용법: 이 파일을 epNN/storyboard.html 로 복제한 뒤,
+          아래 <script> 의 CONFIG 와 SLIDES 만 편집한다.
+          (CSS/렌더/배치 로직은 손대지 않는다. 절차는 .agents/EPISODE_WORKFLOW.md 참조)
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>스토리보드</title>
+<style>
+  :root{
+    --bg:#f4f1ec; --card:#fff; --ink:#3a3531; --sub:#7a726a; --line:#e3ddd4;
+    --band:#fbf9f5; --accent:#a98a6f; --warn:#c0563f;
+    --b-wife:#dfeaf0; --b-husband:#e7e7e2; --b-mil:#ecdfe8; --b-fil:#ede4d8;
+    --b-wmom:#dfe9ec; --b-rel:#f0e7d8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.65;}
+  header.page{padding:32px 28px 20px;border-bottom:1px solid var(--line);background:var(--card);}
+  header.page h1{margin:0 0 6px;font-size:24px;}
+  header.page p{margin:2px 0;color:var(--sub);font-size:14px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px;}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:24px;}
+  .panel h2{margin:0 0 12px;font-size:16px;}
+  .panel ul{margin:0;padding-left:18px;} .panel li{margin:4px 0;}
+  .panel .warn{color:var(--warn);font-weight:600;}
+  .prompt{background:#2f2b27;color:#ece6dd;border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.65;}
+  .charsheet img{width:100%;max-width:760px;display:block;border:1px solid var(--line);border-radius:10px;}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .chip{font-size:14px;padding:6px 12px;border-radius:20px;border:1px solid var(--line);}
+
+  .cut{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:26px;overflow:hidden;
+    display:grid;grid-template-columns:420px 1fr;}
+  .framecol{padding:22px;border-right:1px solid var(--line);background:#faf8f4;}
+  .info{padding:22px 24px;}
+  .cuttop{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .cutnum{font-size:14px;font-weight:700;color:#fff;background:var(--accent);border-radius:20px;padding:4px 14px;}
+  .filename{font-size:14px;color:var(--sub);font-family:monospace;}
+  .cuttitle{font-size:21px;font-weight:700;margin:0 0 16px;}
+
+  /* 4:5 frame mock */
+  .frame{position:relative;width:376px;aspect-ratio:4/5;margin:0 auto;background:#efe9e0;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}
+  .nb{background:#fff;color:var(--ink);font-size:14px;line-height:1.5;padding:9px 11px;}
+  .nb.top{border-bottom:1px solid var(--line);}
+  .nb.bottom{border-top:1px solid var(--line);margin-top:auto;}
+  .nb.dark{background:#3a3531;color:#f1ece4;}
+  .sc{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:11px;font-size:13.5px;color:#5f574d;min-height:78px;}
+  .sc + .sc{border-top:2px dashed #cdbfa9;}
+  .sc .lbl{opacity:.95;}
+  .bub{display:inline-block;background:#fff;border:1px solid #cfc6ba;border-radius:12px;padding:7px 10px;
+    font-size:13px;line-height:1.45;margin:6px auto;max-width:96%;}
+  .bub .who{display:block;font-size:12px;color:var(--sub);margin-bottom:2px;}
+  .bub.wife{background:var(--b-wife);} .bub.husband{background:var(--b-husband);}
+  .bub.mil{background:var(--b-mil);} .bub.fil{background:var(--b-fil);}
+  .bub.wmom{background:var(--b-wmom);} .bub.rel{background:var(--b-rel);}
+  .title-zone{background:#efe3d4;color:#8a6f54;font-weight:700;font-size:15px;padding:11px;text-align:center;border-bottom:1px solid var(--line);}
+
+  .info h4{margin:18px 0 6px;font-size:14px;color:var(--accent);letter-spacing:.02em;}
+  .info h4:first-of-type{margin-top:0;}
+  .narr-line{background:var(--band);border-left:3px solid var(--accent);padding:9px 13px;border-radius:0 8px 8px 0;margin:6px 0;font-size:15.5px;}
+  .dlg{margin:6px 0;font-size:15.5px;} .dlg .who{font-weight:700;}
+  .info ol{font-size:15px;}
+  .cast{display:flex;flex-wrap:wrap;gap:6px;} .cast .c{font-size:14px;padding:4px 11px;border-radius:6px;border:1px solid var(--line);background:#faf8f4;}
+  .note.stack{font-size:14px;color:#7c5a3a;background:#f6efe5;border:1px dashed #cdbfa9;border-radius:8px;padding:9px 12px;margin-top:6px;}
+  .prev{margin-top:14px;} .prev img{width:130px;border:1px solid var(--line);border-radius:8px;display:block;}
+  .prev .cap{font-size:13px;color:var(--sub);margin-top:4px;}
+
+  @media(max-width:820px){.cut{grid-template-columns:1fr;}.framecol{border-right:none;border-bottom:1px solid var(--line);}.frame{width:330px;}}
+</style>
+</head>
+<body>
+<header class="page">
+  <h1 id="epTitle"></h1>
+  <p id="epSub"></p>
+  <p>구성: 슬라이드 10장, 각 장 안에 2~3개 장면을 세로로 적층 / 플랫 저채도 화풍 / 텍스트는 그림과 분리해 합성</p>
+</header>
+<div class="wrap">
+
+  <section class="panel">
+    <h2>제작 가이드</h2>
+    <ul>
+      <li><b>장 수</b>: 총 10장(슬라이드). 한 장 안에 여러 컷을 위아래로 짜임새 있게 배치.</li>
+      <li><b>화풍</b>: 플랫 2D 카툰, 저채도 파스텔, 가는 갈색 라인, 음영 최소. 캐릭터 시트 고정. 반실사/수채 금지.</li>
+      <li class="warn">두 노인 구분: 시아버지 = 브라운 카라 스웨터 / 친정아빠 = 회갈색 카라셔츠 위 스웨터.</li>
+      <li class="warn">생성 제약: 1:1(1024x1024)만 가능 -> <b>생성 후 좌우를 잘라 4:5로 센터 크롭</b>. 인물과 핵심 요소는 중앙 4:5 안전영역에, 좌우 여백은 잘려도 되게. 장면 적층(상/하)은 좌우 크롭에 안전.</li>
+      <li><b>텍스트(분리 합성)</b>: 그림에는 글자 없이 여백만. 나레이션 = 상/하단 가로 띠, 대사 = 화자색 말풍선. 빈 말풍선이 아니라 합성용 빈 공간을 둠.</li>
+      <li><b>워터마크</b>: '@toon_observer_' 를 이미지마다 임의 위치 2곳에 옅고 흐리게.</li>
+    </ul>
+  </section>
+
+  <section class="panel charsheet">
+    <h2>캐릭터 레퍼런스 시트</h2>
+    <img src="../.agents/character_sheet.png" alt="캐릭터 시트">
+    <div class="legend">
+      <span class="chip"><b>아내</b> 갈색 긴 웨이브 / 머스터드 스웨터</span>
+      <span class="chip"><b>남편</b> 짧은 회갈색 머리 / 회색 스웨터</span>
+      <span class="chip"><b>시어머니</b> 보글 회갈색 펌 / 플럼 상의 / 날카로운 눈</span>
+      <span class="chip"><b>시아버지</b> 대머리+옆머리 / 브라운 카라 스웨터</span>
+      <span class="chip"><b>친정엄마</b> 검정 단발 / 하늘색 스웨터</span>
+      <span class="chip"><b>친정아빠</b> 옆 회색 대머리 / 회갈색 카라셔츠</span>
+    </div>
+  </section>
+
+  <div id="cuts"></div>
+
+  <section class="panel" id="batch">
+    <h2>일괄 생성 프롬프트 (전체 복사용)</h2>
+    <p style="color:var(--sub);margin:0 0 12px;">아래 한 덩어리를 그대로 이미지 생성기에 전달하세요. 캐릭터 시트(<code>.agents/character_sheet.png</code>)도 참조 이미지로 함께 첨부하면 일관성이 올라갑니다.</p>
+    <button id="copyBtn" style="margin-bottom:12px;padding:9px 16px;font-size:14px;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;cursor:pointer;">전체 프롬프트 복사</button>
+    <textarea id="batchText" readonly style="width:100%;height:520px;font-size:14px;line-height:1.6;padding:14px;border:1px solid var(--line);border-radius:10px;font-family:monospace;background:#fbf9f5;color:var(--ink);resize:vertical;"></textarea>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   여기만 편집하세요 (CONFIG + SLIDES)
+   ============================================================ */
+const CONFIG = {
+  ep: '02',                                  // 에피소드 번호 -> 폴더 epNN, 저장경로에 사용
+  title: '에피소드 제목을 입력',               // 표지/헤더 제목
+  subtitle: '한 줄 시놉시스를 입력',           // 헤더 부제
+  hasPrev: false                             // 재생성 화면이면 true (backup_v1 썸네일 표시)
+};
+
+/* SLIDES 스키마는 .agents/EPISODE_WORKFLOW.md 부록 A 참조.
+   아래는 예시 1컷. 10개로 채우세요. */
+const SLIDES = [
+  {
+    num:'01', file:'01.png', title:'표지 / 후킹',
+    titleZone:'표지 제목',
+    scenes:[ {label:'핵심 인물의 후킹 장면 묘사', bub:{cls:'mil',who:'화자',text:'후킹 대사'}} ],
+    dialogue:[ {who:'화자',text:'"후킹 대사"'} ],
+    cast:['화자'],
+    prompt:'한 장면. (생성 프롬프트). 상단 1/4은 제목용 단색 여백, 입 옆 말풍선 여백.'
+  }
+  // ... 02 ~ 10 슬라이드를 같은 형식으로 추가
+];
+
+/* ============================================================
+   아래 로직은 수정하지 마세요
+   ============================================================ */
+const EP = CONFIG.ep;
+const SAVE_DIR = `C:\\project\\insta_toon\\ep${EP}`;
+document.title = `ep${EP} 스토리보드 - ${CONFIG.title}`;
+document.getElementById('epTitle').textContent = `ep${EP} 스토리보드 - "${CONFIG.title}"`;
+document.getElementById('epSub').textContent = CONFIG.subtitle;
+
+const cuts = document.getElementById('cuts');
+SLIDES.forEach(s=>{
+  let frame = '';
+  if(s.titleZone) frame += `<div class="title-zone">${s.titleZone}</div>`;
+  if(s.narrTop) frame += `<div class="nb top">${s.narrTop}</div>`;
+  s.scenes.forEach(sc=>{
+    let inner = `<span class="lbl">${sc.label}</span>`;
+    if(sc.bub) inner += `<span class="bub ${sc.bub.cls}"><span class="who">${sc.bub.who}</span>${sc.bub.text}</span>`;
+    frame += `<div class="sc">${inner}</div>`;
+  });
+  if(s.narrBottom) frame += `<div class="nb bottom">${s.narrBottom}</div>`;
+  if(s.narrBottomDark) frame += `<div class="nb bottom dark">${s.narrBottomDark}</div>`;
+
+  let info = `<div class="cuttop"><span class="cutnum">${s.num}컷</span><span class="filename">${s.file}</span></div>`;
+  info += `<h3 class="cuttitle">${s.title}</h3>`;
+  if(s.narrTop||s.narrBottom||s.narrBottomDark){
+    info += `<h4>나레이션</h4>`;
+    [s.narrTop,s.narrBottom,s.narrBottomDark].filter(Boolean).forEach(n=> info += `<p class="narr-line">${n}</p>`);
+  }
+  if(s.dialogue){ info += `<h4>대사</h4>`; s.dialogue.forEach(d=> info += `<p class="dlg"><span class="who">${d.who}:</span> ${d.text}</p>`); }
+  info += `<h4>장면 구성</h4><ol style="margin:4px 0;padding-left:18px;">`;
+  s.scenes.forEach(sc=> info += `<li>${sc.label}</li>`);
+  info += `</ol>`;
+  info += `<h4>등장인물</h4><div class="cast">` + s.cast.map(c=>`<span class="c">${c}</span>`).join('') + `</div>`;
+  info += `<h4>이미지 프롬프트</h4><p class="prompt">${s.prompt}<br><span style="color:#c7b89a;">저장: ${SAVE_DIR}\\${s.file}</span></p>`;
+  if(s.stack) info += `<p class="note stack">2장면 적층: ${s.stack}</p>`;
+  if(CONFIG.hasPrev) info += `<div class="prev"><h4>이전 생성본(v1)</h4><img src="backup_v1/${s.file}" alt="v1 ${s.num}"><div class="cap">참고용, 새로 그릴 예정</div></div>`;
+
+  cuts.insertAdjacentHTML('beforeend', `<article class="cut"><div class="framecol"><div class="frame">${frame}</div></div><div class="info">${info}</div></article>`);
+});
+
+// ---- 일괄 생성 프롬프트 빌드 ----
+const COMMON =
+`[공통 화풍/캐릭터 - 모든 컷 공통 적용]
+플랫 2D 카툰 인스타툰 스타일. 저채도 파스텔 색감, 부드럽고 가는 갈색 외곽선, 그림자/음영 최소의 단순 면 채색. 종이 질감 단색 배경에 소품 최소화. 인물은 첨부한 캐릭터 시트와 동일하게(헤어, 의상색, 얼굴) 유지.
+- 아내: 갈색 긴 웨이브, 머스터드 스웨터, 베이지 바지
+- 남편: 짧은 회갈색 머리, 회색 스웨터, 카키 바지
+- 시어머니: 보글 회갈색 펌, 자주색 상의, 날카로운 눈매
+- 시아버지: 정수리 벗겨진 대머리+옆머리, 브라운 카라 스웨터, 주름진 마른 얼굴
+- 친정엄마: 검정 단발, 하늘색 스웨터
+- 친정아빠: 옆머리 회색 대머리, 회갈색 카라셔츠 위 스웨터
+화면에 글자/숫자/말풍선 텍스트는 절대 넣지 말 것(텍스트는 후합성). 지정 위치에 텍스트용 단색 여백(상/하단 가로 띠, 인물 옆 빈 공간)만 비워둘 것.
+워터마크(예외): 옅고 흐릿한 반투명 워터마크 '@toon_observer_'를 이미지마다 서로 다른 임의의 위치 2곳에 작게, 연한 회색 반투명으로 배치할 것(가독성을 해치지 않게 흐리게).
+포맷: 1:1 정사각형으로 생성하되 핵심 인물·장면은 중앙 세로 4:5 영역 안에 두고 좌우 여백을 둘 것(좌우는 4:5로 크롭 예정). 여러 장면은 위아래로 나누고 장면마다 배경 색을 다르게 해 구분.`;
+
+const intro =
+`인스타툰 "${CONFIG.title}" ${Number(EP)}화용 이미지 10장을 아래 지침대로 생성해줘.
+각 컷을 1:1로 생성하고, 결과 파일은 지정한 경로/파일명으로 저장해줘.
+`;
+
+let batch = intro + "\n" + COMMON + "\n";
+SLIDES.forEach(s=>{
+  batch += `\n----------------------------------------\n[${s.num}컷 - ${s.title}]\n${s.prompt}\n저장: ${SAVE_DIR}\\${s.file}\n`;
+});
+document.getElementById('batchText').value = batch;
+
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const t = document.getElementById('batchText');
+  t.select(); t.setSelectionRange(0, t.value.length);
+  navigator.clipboard.writeText(t.value).then(()=>{
+    const b = document.getElementById('copyBtn'); const o = b.textContent;
+    b.textContent = '복사됨'; setTimeout(()=>b.textContent=o, 1500);
+  }).catch(()=>{ document.execCommand('copy'); });
+});
+</script>
+</body>
+</html>
