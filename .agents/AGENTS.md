@@ -2,6 +2,8 @@
 
 These rules define the character styling and design guidelines to maintain consistency across all episodes.
 
+![Character Reference Sheet](character_sheet.png)
+
 ## General Art Style
 - **Type**: Simple 2D flat cartoon style (웹툰/카툰체).
 - **Line Art**: Soft brown outlines (not harsh black).
